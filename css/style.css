@@ -1,3 +1,22 @@
+
+
+body {
+    background: #E5E5E5;
+}
+
+
 * {
     box-sizing: border-box;
+    font-family: 'Roboto';
+}
+
+.top-bar {
+    background-color: #EC362D;
+    height: 69px;
+    font-size: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
 }
