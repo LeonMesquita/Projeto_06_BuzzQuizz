@@ -12,7 +12,7 @@ function renderizaQuizzes(response){
 
     arrQuizzes = response.data;
     
-    document.querySelector(".quizzes").innerHTML = "";
+    document.querySelector(".quizzesServer").innerHTML = "";
     for(let i = 0; i < arrQuizzes.length; i++){
         imprimeQuiz(arrQuizzes[i]);
     }
@@ -20,10 +20,10 @@ function renderizaQuizzes(response){
 
 function imprimeQuiz(quiz){
 
-    const quizzes = document.querySelector(".quizzes")
+    const quizzes = document.querySelector(".quizzesServer")
 
     quizzes.innerHTML += `
-    <div class="quiz" onclick="abrirQuiz()">
+    <div class="quizz margemDireita" onclick="abrirQuiz()">
         <img src="${quiz.image}" alt="imagem quiz" />
         <p>${quiz.title}</p>
         <div class="gradiente"></div>
@@ -54,8 +54,8 @@ function imprimeQuizUsuario(quiz){
     const quizzes = document.querySelector(".quizzesUsuario");
 
     quizzes.innerHTML += `
-    <div class="quiz margemDireita" onclick="abrirQuiz()">
-        <img src="${quiz.image}" alt="imagem quiz" />
+    <div class="quizz margemDireita">
+        <img src="${quiz.image}" alt="imagem quiz">
         <p>${quiz.title}</p>
         <div class="gradiente"></div>
     </div>
