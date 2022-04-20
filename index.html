@@ -18,7 +18,7 @@
 
 <!--PÁGINA 1-->
 
-    <div class="pagina1">
+    <div class="pagina1 escondido">
         <div class="criar-Quiz escondido">
             <p>Você não criou nenhum<br>quizz ainda :(</p>
             <button>Criar Quizz</button>
@@ -97,22 +97,32 @@
  
 
 <!--PÁGINA 3-->
-<div class="create-quizz escondido">
-    <h1>Comece pelo começo</h1>
-    <div class="quizz-title">
-        
+<div class="create-quizz">
+
+<!--INFORMAÇÕES BÁSICAS-->
+    <div class="basic-informations">
+        <h1>Comece pelo começo</h1>
 
     <div>
-        <input type="text" placeholder="Título do seu quizz" class="text-box">
-        <input type="text" placeholder="URL da imagem do seu quizz" class="text-box">
-        <input type="text" placeholder="Quantidade de perguntas do quizz" class="text-box">
-        <input type="text" placeholder="Quantidade de níveis do quizz" class="text-box">
+            <div>
+                <input type="text" placeholder="Título do seu quizz" class="text-box title">
+                <input type="text" placeholder="URL da imagem do seu quizz" class="text-box url">
+                <input type="text" placeholder="Quantidade de perguntas do quizz" class="text-box quantity">
+                <input type="text" placeholder="Quantidade de níveis do quizz" class="text-box levels">
+
+            </div>
+    </div>
+
+
+    <button class="create-quizz-button" onclick="setBasicInformations()">Prosseguir para criar perguntas</button>
 
     </div>
 
 
+<!--PERGUNTAS DO QUIZZ-->
+    <div class="quizz-questions">
+        
     </div>
-    <button class="create-quizz-button">Prosseguir para criar perguntas</button>
 
 
 </div>

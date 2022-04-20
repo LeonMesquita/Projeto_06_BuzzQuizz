@@ -2,8 +2,11 @@ body {
     background-color: #FAFAFA;
 }
 
-
 .create-quizz {
+
+}
+
+.basic-informations {
     margin-top: 69px;
     display: flex;
     flex-direction: column;
@@ -20,7 +23,7 @@ h1 {
     font-size: 23px;
 }
 
-.create-quizz div {
+.basic-informations div {
     display: flex;
     flex-direction: column;
     background-color: white;
