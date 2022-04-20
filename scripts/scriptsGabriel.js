@@ -68,3 +68,4 @@ function windowReload(){
 }
 
 carregaQuizzesTodos();
+carregaQuizzesUsuario();

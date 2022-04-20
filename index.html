@@ -14,13 +14,15 @@
 </head>
 <body>
     <div class="top-bar">BuzzQuizz</div>
-    
+
+<!--PÁGINA 1-->
+
     <div class="pagina1">
-        <div class="criar-Quiz">
+        <div class="criar-Quiz escondido">
             <p>Você não criou nenhum<br>quizz ainda :(</p>
             <button>Criar Quizz</button>
         </div>
-        <div class="meus-quizzes escondido">
+        <div class="meus-quizzes">
             <div>
                 <p>Seus Quizzes</p>
                 <button onclick="criarQuiz()">+</button>
@@ -36,6 +38,62 @@
             </div>
         </div>
     </div>
+
+
+
+
+<!--PÁGINA 2-->
+    <div class="quizz-page escondido">
+        <div class="quizz-image">
+            <img src="images/quizz image.svg" />
+            <span>O quão Potterhead é você?</span>
+
+        </div>
+        <div class="questions-container"> <!--Pergunta 1-->
+            <div class="question-title question1">Em qual animal Olho-Tonto Moody transfigurou Malfoy?</div>
+            <div class="options-container">
+                <div class="option">
+                    <img src="images/pergunta 1/image 3.svg" />
+                    <h3>Gatíneo</h3>
+                </div>
+                <div class="option">
+                    <img src="images/pergunta 1/image 4.svg" />
+                    <h3>Ratata</h3>
+                </div>
+                <div class="option">
+                    <img src="images/pergunta 1/image 7.svg" />
+                    <h3>Sapo gordo</h3>
+                </div>
+                <div class="option">
+                    <img src="images/pergunta 1/image 8.svg" />
+                    <h3>Mustela putorius (o Furão)</h3>
+                </div>
+
+            </div>
+ 
+        </div>
+
+        <!--resultado-->
+
+        <div class="questions-container">
+            <div class="question-title result">
+                88% de acerto: Você é praticamente um aluno de Hogwarts!
+            </div>
+            <div class="result-div">
+                <img src="images/image 10.svg" alt="">
+                <p>Parabéns Potterhead! Bem-vindx a Hogwarts, aproveite o loop infinito de comida e clique no botão abaixo para usar o vira-tempo e reiniciar este teste.</p>
+            </div>
+        </div>
+
+        <button class="reset-button">Reiniciar Quizz</button>
+
+        <button class="home-button">Voltar para home</button>
+    
+
+
+</div>
+    
+ 
 
 
 
