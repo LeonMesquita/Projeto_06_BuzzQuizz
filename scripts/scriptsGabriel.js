@@ -99,8 +99,8 @@ function exibeQuizz(quizz){
     pagQuizz.classList.remove("escondido");
 
     pagQuizz.querySelector(".quizz-image").innerHTML = `
-    <img src="${quizz.image}" />
-    <span>${quizz.title}</span>
+    <img src="${quizz.image}"/>
+    <span class="escurecido">${quizz.title}</span>
     `;
 
     pagQuizz.querySelector(".quizz-image").scrollIntoView();
