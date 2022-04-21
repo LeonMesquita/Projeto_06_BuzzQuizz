@@ -144,6 +144,12 @@ body {
     width: 50%;
 }
 
+.result-div p{
+    width: 50%;
+    word-wrap: break-word;
+    
+}
+
 .option-selected {
     color: #1A9C21;
 }

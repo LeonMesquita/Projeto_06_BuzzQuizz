@@ -85,20 +85,21 @@ function abreQuiz(quizz){
 }
 
 function exibeQuizz(quizz){
-
     acertos = 0;
     perguntasRespondidas = 0;
     quizzID = quizz.id;
 
     document.querySelector(".main-page").classList.add("escondido");
+    document.querySelector(".botoes").classList.remove("escondido");
+    
     const pagQuizz = document.querySelector(".quizz-page");
     pagQuizz.classList.remove("escondido");
 
-    pagQuizz.querySelector(".quizz-image").innerHTML += `
+    pagQuizz.querySelector(".quizz-image").innerHTML = `
     <img src="${quizz.image}" />
     <span>${quizz.title}</span>
-    `
-
+    `;
+    
     for(let i = 0; i < quizz.questions.length; i++){
         pagQuizz.innerHTML += `
         <div class="questions-container"> 
@@ -121,9 +122,9 @@ function exibeQuizz(quizz){
         
     }
 
-    document.querySelector(".botoes").innerHTML += `
+    document.querySelector(".botoes").innerHTML = `
     <button class='reset-button'>Reiniciar Quizz</button>
-    <button class='home-button'>Voltar para home</button>
+    <button class='home-button' onclick="voltaMenu()">Voltar para home</button>
     `;
     
 }
@@ -181,15 +182,17 @@ function calculaResultado(response){
 
     let quizz = response.data;
     let porcentagemAcertos = calculaAcertos();
-    let levelUsuario;
+    let levelUsuario;    
 
     for(let i = 0; i < quizz.levels.length; i++){
-        if(porcentagemAcertos >= quizz.levels[i].minValue){
-            if((quizz.levels[i].minValue > quizz.levels[levelUsuario]) || levelUsuario === undefined){
+        if(porcentagemAcertos >= Number(quizz.levels[i].minValue)){
+
+            if(levelUsuario === undefined || (Number(quizz.levels[i].minValue) > Number(quizz.levels[levelUsuario].minValue))  ){
                 levelUsuario = i;
             }
         }
     }
+    
     renderizaResultado(quizz, levelUsuario, porcentagemAcertos);
 }
 
@@ -197,7 +200,6 @@ function renderizaResultado(quizz, level, porcentagemAcertos){
 
     const pagQuizz = document.querySelector(".quizz-page");
     const levelExibido = quizz.levels[level];
-    console.log(quizz.levels[level])
     
     pagQuizz.innerHTML += `
     <div class="questions-container">
@@ -219,6 +221,22 @@ function calculaAcertos(){
     return porcentagemAcertos.toFixed(0);
 }
 
+function voltaMenu(){
+
+    const pagQuizz = document.querySelector(".quizz-page");
+    const questContainer = pagQuizz.querySelectorAll(".questions-container")
+    pagQuizz.classList.add("escondido");
+    for(let i = 0; i < questContainer.length; i++){
+        questContainer[i].remove();
+    }
+    
+    document.querySelector(".quizz-image").innerHTML = "";
+    
+    document.querySelector(".botoes").classList.add("escondido");
+
+    document.querySelector(".main-page").classList.remove("escondido");
+    carregaQuizzesTodos();
+}
 
 carregaQuizzesTodos();
 carregaQuizzesUsuario();
