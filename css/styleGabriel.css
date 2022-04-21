@@ -121,6 +121,9 @@
     font-weight: 400;
     font-size: 19px;
     z-index: 1;
+
+    width: 88%;
+    word-wrap: break-word;
 }
 
 .gradiente{

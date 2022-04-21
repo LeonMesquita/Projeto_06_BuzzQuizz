@@ -129,7 +129,6 @@ function exibeQuizz(quizz){
 }
 
 function selecionaOpcao(opcaoClicada){
-    console.log("clicou")
 
     const divPai = opcaoClicada.parentNode;
     const arrOptions = divPai.querySelectorAll(".option");
@@ -186,7 +185,9 @@ function calculaResultado(response){
 
     for(let i = 0; i < quizz.levels.length; i++){
         if(porcentagemAcertos >= quizz.levels[i].minValue){
-            levelUsuario = i;
+            if((quizz.levels[i].minValue > quizz.levels[levelUsuario]) || levelUsuario === undefined){
+                levelUsuario = i;
+            }
         }
     }
     renderizaResultado(quizz, levelUsuario, porcentagemAcertos);
@@ -196,7 +197,7 @@ function renderizaResultado(quizz, level, porcentagemAcertos){
 
     const pagQuizz = document.querySelector(".quizz-page");
     const levelExibido = quizz.levels[level];
-    console.log(levelExibido)
+    console.log(quizz.levels[level])
     
     pagQuizz.innerHTML += `
     <div class="questions-container">
