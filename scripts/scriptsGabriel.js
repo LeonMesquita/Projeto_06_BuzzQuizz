@@ -113,12 +113,15 @@ function exibeQuizz(quizz){
         `;
 
         let containerOpcoes = pagQuizz.querySelector(`.options-container.box${i}`);
+        let arrAnswers = quizz.questions[i].answers;
+        arrAnswers.sort(comparador);
+
         for(let j = 0; j < quizz.questions[i].answers.length; j++){
             containerOpcoes.innerHTML += `
             <div class="option" onclick="selecionaOpcao(this)">
-                <img src="${quizz.questions[i].answers[j].image}" />
-                <h3>${quizz.questions[i].answers[j].text}</h3>
-                <p class="escondido">${quizz.questions[i].answers[j].isCorrectAnswer}</p>
+                <img src="${arrAnswers[j].image}" />
+                <h3>${arrAnswers[j].text}</h3>
+                <p class="escondido">${arrAnswers[j].isCorrectAnswer}</p>
             </div>`;
         }
         
@@ -257,6 +260,10 @@ function zeraQuizz(response){
 
     document.querySelector(".quizz-image").innerHTML = "";
     exibeQuizz(quizz);
+}
+
+function comparador() { 
+	return Math.random() - 0.5; 
 }
 
 carregaQuizzesTodos();
