@@ -9,6 +9,8 @@ body {
     box-sizing: border-box;
 }
 
+
+
 .top-bar {
     background-color: #EC362D;
     height: 69px;
@@ -18,7 +20,7 @@ body {
     justify-content: center;
     color: white;
     font-weight: 900;
-    position: fixed;
+    position:fixed;
     top: 0;
     z-index: 1;
     width: 100%;
@@ -27,7 +29,6 @@ body {
 
 .quizz-page {
     width: 100%;
-    margin-top: 69px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -113,6 +114,7 @@ body {
 
 .option{
     margin-bottom: 30px;
+    width: 48%;
 }
 
 .option img {

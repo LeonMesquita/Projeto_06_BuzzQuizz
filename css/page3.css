@@ -2,15 +2,27 @@ body {
     background-color: #FAFAFA;
 }
 
+
+
 .create-quizz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
 
 }
 
+
 .basic-informations {
+    margin: auto;
     margin-top: 69px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 600px;
+
+
 
 }
 
@@ -27,7 +39,7 @@ h1 {
     display: flex;
     flex-direction: column;
     background-color: white;
-    width: 600px;
+    width: 100%;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -63,20 +75,107 @@ h1 {
 }
 
 
+
+.quizz-questions, .quizz-levels, .finish-quizz{
+ margin-top: 69px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ color: #000000;
+ font-weight: 900;
+ font-size: 20px;
+ width: 600px;
+
+}
+
+.select-question, .select-level {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 22px;
+}
+
+.select {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.select-question h2, .select-level h2 {
+    margin-left: 17px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+
+.select-question img {
+    margin-right: 20px;
+}
+
+.edit-question {
+    width: 600px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+
+.edit-question h3 {
+    margin-top: 27px;
+    margin-left: 20px;
+}
+
+.finish-quizz div{
+    margin-bottom: 45px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.finish-quizz img {
+    width: 500px;
+    height: 266px;
+}
+
+
+
+
+
+
+
+
+
 @media (max-width: 610px){
     .create-quizz {
         margin-top: 37px;
     }
 
-    .create-quizz div {
+ 
+    .create-quizz, .basic-informations, .quizz-questions, .quizz-levels{
         width: 100%;
     }
+
 
     .create-quizz-button {
         width: 323px;
         margin-top: 40px;
     }
 
+    .finish-quizz img {
+        width: 340px;
+        height: 181px;
+    }
 
 
  
