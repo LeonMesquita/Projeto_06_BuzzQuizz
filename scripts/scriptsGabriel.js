@@ -99,6 +99,8 @@ function exibeQuizz(quizz){
     <img src="${quizz.image}" />
     <span>${quizz.title}</span>
     `;
+
+    pagQuizz.querySelector(".quizz-image").scrollIntoView();
     
     for(let i = 0; i < quizz.questions.length; i++){
         pagQuizz.innerHTML += `
@@ -123,7 +125,7 @@ function exibeQuizz(quizz){
     }
 
     document.querySelector(".botoes").innerHTML = `
-    <button class='reset-button'>Reiniciar Quizz</button>
+    <button class='reset-button' onclick="reiniciaQuiz()">Reiniciar Quizz</button>
     <button class='home-button' onclick="voltaMenu()">Voltar para home</button>
     `;
     
@@ -224,7 +226,7 @@ function calculaAcertos(){
 function voltaMenu(){
 
     const pagQuizz = document.querySelector(".quizz-page");
-    const questContainer = pagQuizz.querySelectorAll(".questions-container")
+    const questContainer = pagQuizz.querySelectorAll(".questions-container");
     pagQuizz.classList.add("escondido");
     for(let i = 0; i < questContainer.length; i++){
         questContainer[i].remove();
@@ -236,6 +238,25 @@ function voltaMenu(){
 
     document.querySelector(".main-page").classList.remove("escondido");
     carregaQuizzesTodos();
+}
+
+function reiniciaQuiz(){
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${quizzID}`);
+    promise.then(zeraQuizz);
+}
+
+function zeraQuizz(response){
+
+    const quizz = response.data;
+    const pagQuizz = document.querySelector(".quizz-page");
+    const questContainer = pagQuizz.querySelectorAll(".questions-container");
+
+    for(let i = 0; i < questContainer.length; i++){
+        questContainer[i].remove();
+    }
+
+    document.querySelector(".quizz-image").innerHTML = "";
+    exibeQuizz(quizz);
 }
 
 carregaQuizzesTodos();
