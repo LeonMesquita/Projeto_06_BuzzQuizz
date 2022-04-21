@@ -153,19 +153,22 @@
 
 
 
-
-
-
-
-
-
-
-
-
 .escondido{
     display: none;
 }
 
 .margemDireita{
     margin-right: 15px;
+}
+
+.opacidade{
+    opacity: 0.3;
+}
+
+.verde{
+    color: #009C22;
+}
+
+.vermelho{
+    color: #FF4B4B;
 }

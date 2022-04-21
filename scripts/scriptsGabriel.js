@@ -106,7 +106,7 @@ function exibeQuizz(quizz){
         let containerOpcoes = pagQuizz.querySelector(`.options-container.box${i}`);
         for(let j = 0; j < quizz.questions[i].answers.length; j++){
             containerOpcoes.innerHTML += `
-            <div class="option">
+            <div class="option" onclick="selecionaOpcao(this)">
                 <img src="${quizz.questions[i].answers[j].image}" />
                 <h3>${quizz.questions[i].answers[j].text}</h3>
                 <p class="escondido">${quizz.questions[i].answers[j].isCorrectAnswer}</p>
@@ -133,6 +133,28 @@ function exibeQuizz(quizz){
     <button class='home-button'>Voltar para home</button>
     `;
     
+}
+
+function selecionaOpcao(opcaoClicada){
+    
+    const divPai = opcaoClicada.parentNode;
+
+    const arrOptions = divPai.querySelectorAll(".option");
+
+    for(let i = 0; i < arrOptions.length; i++){
+        
+        if(arrOptions[i] !== opcaoClicada){
+            arrOptions[i].classList.add("opacidade");
+        }
+        
+        if(arrOptions[i].querySelector("p").innerHTML === "true"){
+            arrOptions[i].querySelector("h3").classList.add("verde");
+        }
+        
+        if(arrOptions[i].querySelector("p").innerHTML === "false"){
+            arrOptions[i].querySelector("h3").classList.add("vermelho");
+        }
+    }
 }
 
 carregaQuizzesTodos();
