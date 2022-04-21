@@ -129,9 +129,9 @@ function exibeQuizz(quizz){
 }
 
 function selecionaOpcao(opcaoClicada){
-    
-    const divPai = opcaoClicada.parentNode;
+    console.log("clicou")
 
+    const divPai = opcaoClicada.parentNode;
     const arrOptions = divPai.querySelectorAll(".option");
 
     for(let i = 0; i < arrOptions.length; i++){
@@ -156,6 +156,10 @@ function selecionaOpcao(opcaoClicada){
     }else{
         perguntasRespondidas++;
         verificaFim();
+    }
+
+    for(let j = 0; j < arrOptions.length; j++){
+        arrOptions[j].removeAttribute("onclick");
     }
 }
 
