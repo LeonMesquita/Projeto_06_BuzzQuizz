@@ -22,7 +22,7 @@ body {
     font-weight: 900;
     position:fixed;
     top: 0;
-    z-index: 1;
+    z-index: 2;
     width: 100%;
 
 }
@@ -56,7 +56,7 @@ body {
     position: absolute;
     color: white;
     font-size: 39px;
-
+    z-index: 1;
 }
 
 .questions-container {
@@ -114,16 +114,18 @@ body {
 
 .option{
     margin-bottom: 30px;
-    width: 48%;
+    height: 50%;
+    width: 50%;
 }
 
 .option img {
-    width: 100%;
+    width: 330px;
+    height: 175px;
+    object-fit: cover;
 }
 
 .options-container h3 {
     margin-top: 5px;
-    
 }
 
 .result-div {
@@ -138,6 +140,15 @@ body {
 .result-div img{
     margin-right: 20px;
     margin-bottom: 22px;
+    object-fit: cover;
+    height: 100%;
+    width: 50%;
+}
+
+.result-div p{
+    width: 50%;
+    word-wrap: break-word;
+    
 }
 
 .option-selected {
