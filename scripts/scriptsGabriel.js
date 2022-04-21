@@ -186,6 +186,10 @@ function scrollProximaPergunta(perguntaRespondida){
                     arrQuestions[i + 1].scrollIntoView();
                 }, TIME_2S)
                 console.log("fica frio ae")
+            }else{
+                setTimeout(function (){
+                    document.querySelector(".result").scrollIntoView();
+                }, TIME_2S)
             }
         }
     }
