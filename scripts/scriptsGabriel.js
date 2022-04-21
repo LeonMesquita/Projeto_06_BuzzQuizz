@@ -3,6 +3,7 @@ let arrQuizzes = [];
 let acertos;
 let perguntasRespondidas;
 let quizzID;
+const TIME_2S = 2000;
 
 function carregaQuizzesTodos(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes"); 
@@ -85,6 +86,8 @@ function abreQuiz(quizz){
 }
 
 function exibeQuizz(quizz){
+    console.log(quizz);
+    
     acertos = 0;
     perguntasRespondidas = 0;
     quizzID = quizz.id;
@@ -166,6 +169,27 @@ function selecionaOpcao(opcaoClicada){
     for(let j = 0; j < arrOptions.length; j++){
         arrOptions[j].removeAttribute("onclick");
     }
+
+    scrollProximaPergunta(opcaoClicada.parentNode);
+}
+
+function scrollProximaPergunta(perguntaRespondida){
+
+    const quizzPage = document.querySelector(".quizz-page");
+    const arrQuestions = quizzPage.querySelectorAll(".questions-container");
+    
+    for(let i = 0; i < arrQuestions.length; i++){
+
+        if(arrQuestions[i].querySelector("div").innerHTML === perguntaRespondida.parentNode.querySelector("div").innerHTML){
+            if(i + 1 < arrQuestions.length){
+                setTimeout(function (){
+                    arrQuestions[i + 1].scrollIntoView();
+                }, TIME_2S)
+                console.log("fica frio ae")
+            }
+        }
+    }
+
 }
 
 function verificaFim(){
