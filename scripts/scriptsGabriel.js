@@ -1,5 +1,8 @@
 //Variáveis globais
 let arrQuizzes = [];
+let acertos;
+let perguntasRespondidas;
+let quizzID;
 
 function carregaQuizzesTodos(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes"); 
@@ -82,7 +85,10 @@ function abreQuiz(quizz){
 }
 
 function exibeQuizz(quizz){
-    console.log(quizz)
+
+    acertos = 0;
+    perguntasRespondidas = 0;
+    quizzID = quizz.id;
 
     document.querySelector(".main-page").classList.add("escondido");
     const pagQuizz = document.querySelector(".quizz-page");
@@ -115,20 +121,7 @@ function exibeQuizz(quizz){
         
     }
 
-    //COMPLETAR ESSA PARTE NO MOMENTO EM QUE CALCULAR A % DE ACERTOS
-    pagQuizz.innerHTML += `
-    <div class="questions-container escondido">
-        <div class="question-title result">
-            88% de acerto: Você é praticamente um aluno de Hogwarts!
-        </div>
-        <div class="result-div">
-            <img src="images/image 10.svg" alt="">
-            <p>Parabéns Potterhead! Bem-vindx a Hogwarts, aproveite o loop infinito de comida e clique no botão abaixo para usar o vira-tempo e reiniciar este teste.</p>
-        </div>
-    </div>
-    `;
-
-    pagQuizz.innerHTML += `
+    document.querySelector(".botoes").innerHTML += `
     <button class='reset-button'>Reiniciar Quizz</button>
     <button class='home-button'>Voltar para home</button>
     `;
@@ -155,7 +148,72 @@ function selecionaOpcao(opcaoClicada){
             arrOptions[i].querySelector("h3").classList.add("vermelho");
         }
     }
+
+    if(opcaoClicada.querySelector("p").innerHTML === "true"){
+        acertos++;
+        perguntasRespondidas++;
+        verificaFim();
+    }else{
+        perguntasRespondidas++;
+        verificaFim();
+    }
 }
+
+function verificaFim(){
+
+    const arrQuestions = document.querySelector(".quizz-page").querySelectorAll(".questions-container");
+
+    if(perguntasRespondidas === arrQuestions.length){
+        buscaQuizz();
+    }
+}
+
+function buscaQuizz(){
+
+    let promise = axios.get(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${quizzID}`);
+    promise.then(calculaResultado);
+}
+
+function calculaResultado(response){
+
+    let quizz = response.data;
+    let porcentagemAcertos = calculaAcertos();
+    let levelUsuario;
+
+    for(let i = 0; i < quizz.levels.length; i++){
+        if(porcentagemAcertos >= quizz.levels[i].minValue){
+            levelUsuario = i;
+        }
+    }
+    renderizaResultado(quizz, levelUsuario, porcentagemAcertos);
+}
+
+function renderizaResultado(quizz, level, porcentagemAcertos){
+
+    const pagQuizz = document.querySelector(".quizz-page");
+    const levelExibido = quizz.levels[level];
+    console.log(levelExibido)
+    
+    pagQuizz.innerHTML += `
+    <div class="questions-container">
+        <div class="question-title result">
+            ${porcentagemAcertos}% de acerto: ${levelExibido.title}
+        </div>
+        <div class="result-div">
+            <img src="${levelExibido.image}" alt="imagem quizz">
+            <p>${levelExibido.text}</p>
+        </div>
+</div>
+    `
+
+}
+
+function calculaAcertos(){
+
+    const porcentagemAcertos = (acertos/perguntasRespondidas)*100;
+    return porcentagemAcertos.toFixed(0);
+}
+
 
 carregaQuizzesTodos();
 carregaQuizzesUsuario();

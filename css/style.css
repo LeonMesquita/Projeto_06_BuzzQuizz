@@ -139,6 +139,9 @@ body {
 .result-div img{
     margin-right: 20px;
     margin-bottom: 22px;
+    object-fit: cover;
+    height: 100%;
+    width: 50%;
 }
 
 .option-selected {
