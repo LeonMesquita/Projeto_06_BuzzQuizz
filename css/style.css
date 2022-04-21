@@ -113,15 +113,18 @@ body {
 
 .option{
     margin-bottom: 30px;
+    height: 50%;
+    width: 50%;
 }
 
 .option img {
-    width: 100%;
+    width: 330px;
+    height: 175px;
+    object-fit: cover;
 }
 
 .options-container h3 {
     margin-top: 5px;
-    
 }
 
 .result-div {
