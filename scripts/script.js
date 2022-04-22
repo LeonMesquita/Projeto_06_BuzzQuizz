@@ -55,6 +55,7 @@ function loadUserQuizzes(){
 
 
 function openQuizz(quizz){
+	document.querySelector(".main-page").classList.toggle("escondido");
     const idQuizz = Number(quizz.querySelector(".id").innerHTML);
     
     for(let i = 0; i < listOfQuizzes.length; i++){
