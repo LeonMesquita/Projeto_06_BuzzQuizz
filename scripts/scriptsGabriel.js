@@ -4,6 +4,7 @@ let acertos;
 let perguntasRespondidas;
 let quizzID;
 const TIME_2S = 2000;
+const TIME_3S = 3000;
 
 function carregaQuizzesTodos(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes"); 
@@ -14,6 +15,10 @@ function carregaQuizzesTodos(){
 
 function renderizaQuizzes(response){ 
 
+    if(document.querySelector(".main-page").classList.contains("escondido")){
+        document.querySelector(".main-page").classList.remove("escondido");
+    }
+    
     arrQuizzes = response.data;
     
     document.querySelector(".quizzesServer").innerHTML = "";
@@ -75,13 +80,20 @@ function windowReload(){
 
 function abreQuiz(quizz){
     
-    const idQuizz = Number(quizz.querySelector(".id").innerHTML);
+    exibeLoading();
+    document.querySelector(".main-page").classList.add("escondido");
     
-    for(let i = 0; i < arrQuizzes.length; i++){
-       if(arrQuizzes[i].id === idQuizz){
-           exibeQuizz(arrQuizzes[i]);
-       }
-    }
+    setTimeout(function (){
+        removeLoading();
+        
+        const idQuizz = Number(quizz.querySelector(".id").innerHTML);
+    
+        for(let i = 0; i < arrQuizzes.length; i++){
+            if(arrQuizzes[i].id === idQuizz){
+                exibeQuizz(arrQuizzes[i]);
+        }
+        }
+    }, TIME_2S);
 
 }
 
@@ -92,7 +104,7 @@ function exibeQuizz(quizz){
     perguntasRespondidas = 0;
     quizzID = quizz.id;
 
-    document.querySelector(".main-page").classList.add("escondido");
+    
     document.querySelector(".botoes").classList.remove("escondido");
     
     const pagQuizz = document.querySelector(".quizz-page");
@@ -294,5 +306,14 @@ function comparador() {
 	return Math.random() - 0.5; 
 }
 
-carregaQuizzesTodos();
-carregaQuizzesUsuario();
+function exibeLoading(){
+    document.querySelector(".loading-page").classList.remove("escondido");
+}
+
+function removeLoading(){
+    document.querySelector(".loading-page").classList.add("escondido");
+}
+
+setTimeout(carregaQuizzesTodos, TIME_2S);
+setTimeout(carregaQuizzesUsuario, TIME_2S);
+setTimeout(removeLoading, TIME_2S);
