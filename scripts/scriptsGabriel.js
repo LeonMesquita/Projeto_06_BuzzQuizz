@@ -295,4 +295,4 @@ function comparador() {
 }
 
 carregaQuizzesTodos();
-carregaQuizzesUsuario();
+//carregaQuizzesUsuario();

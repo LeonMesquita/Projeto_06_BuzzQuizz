@@ -1,24 +1,114 @@
 const apiUrl = "https://mock-api.driven.com.br/api/v6/buzzquizz/";
 let quizzTitle;
 let quizzUrl;
-let questionsQuantity;
-let quizzLevels;
-
+let questionsQuantity = 0;
+let quizzLevels = 0;
 let listOfquestions = [];
 let listOfAnswers = [];
 let listOfLevels = [];
+let listOfQuizzes = [];
 let newQuizz;
+
+let temp = JSON.parse(localStorage.getItem('listOfQuizzes'));
+	
+if (temp === null){
+	localStorage.setItem('listOfQuizzes', JSON.stringify(listOfQuizzes));
+}
+
+
+loadUserQuizzes();
+
+
+
+function loadUserQuizzes(){
+	listOfQuizzes = JSON.parse(localStorage.getItem('listOfQuizzes'));
+	let userQuizzes = document.querySelector(".user-quizzes");
+	if (listOfQuizzes.length === 0){
+		userQuizzes.innerHTML = `
+			<div class="zero-quizzes">
+				<p>Você não criou nenhum<br>quizz ainda :(</p>
+				<button onclick="startQuizzCreation()">Criar Quizz</button>
+			</div>
+			`
+	}
+	else {
+		document.querySelector(".info").innerHTML += `
+					<p>Seus Quizzes</p>
+					<button onclick="startQuizzCreation()">+</button>
+				`
+		for (let cont = 0; cont < listOfQuizzes.length; cont++){
+			userQuizzes.querySelector(".all-user-quizzes").innerHTML += `
+			
+		
+			<div class="quizz  margemDireita" onclick="openQuizz(this)">
+				<img src="${listOfQuizzes[cont].image}" alt="imagem quiz" />
+				<p>${listOfQuizzes[cont].title}</p>
+				<div class="gradiente"></div>
+				<div class="id escondido">${listOfQuizzes[cont].id}</div>
+			</div>
+		
+			`
+		}
+	}
+}
+
+
+
+function openQuizz(quizz){
+    const idQuizz = Number(quizz.querySelector(".id").innerHTML);
+    
+    for(let i = 0; i < listOfQuizzes.length; i++){
+       if(listOfQuizzes[i].id === idQuizz){
+           exibeQuizz(listOfQuizzes[i]);
+       }
+    }
+}
+
+
+
+
+
+function startQuizzCreation(){
+	document.querySelector(".main-page").classList.toggle("escondido");
+	document.querySelector(".create-quizz").classList.toggle("escondido");
+}
+
+
+
+
 
 function setBasicInformations(){
     basicInformations = document.querySelector(".basic-informations")
     quizzTitle = basicInformations.querySelector(".title").value;
     quizzUrl = basicInformations.querySelector(".url").value;
-    questionsQuantity =  parseInt(basicInformations.querySelector(".quantity").value); 
-    quizzLevels = parseInt(basicInformations.querySelector(".levels").value);
+    questionsQuantity =  basicInformations.querySelector(".quantity").value; 
+    quizzLevels = basicInformations.querySelector(".levels").value;
 
-    document.querySelector(".basic-informations").classList.toggle("escondido");
-	document.querySelector(".quizz-questions").classList.toggle("escondido");
-	showQuestions();
+
+
+		if (quizzTitle.length < 20 || quizzTitle.length > 65){
+			let title = document.querySelector(".title");
+			title.value = "";
+			title.classList.add("error-border");
+			title.placeholder = "O título deve ter no mínimo 20 caracteres e no máximo 65";
+		} else if (questionsQuantity < 3){
+			let quantity = document.querySelector(".quantity");
+			quantity.value = "";
+			quantity.classList.add("error-border");
+			quantity.placeholder = "O quizz deve ter no mínimo 3 perguntas";
+		} else if (quizzLevels < 2){
+			let level = document.querySelector(".levels");
+			level.value = "";
+			level.classList.add("error-border");
+			level.placeholder = "O quizz deve ter no mínimo 2 níveis";
+		}
+		
+		else{
+		document.querySelector(".basic-informations").classList.toggle("escondido");
+		document.querySelector(".quizz-questions").classList.toggle("escondido");
+		showQuestions();
+		}
+ 
 }
 
 
@@ -35,25 +125,25 @@ function showQuestions(){
 
 				<div class="edit-question escondido">
 					<h3>Pergunta ${cont+1}</h3>
-					<input type="text" placeholder="Texto da pergunta" class="question-text">
-					<input type="text" placeholder="Cor de fundo da pergunta" class="question-color">
+					<input type="text" placeholder="Texto da pergunta" class="text-box question-text">
+					<input type="text" placeholder="Cor de fundo da pergunta" class="text-box question-color">
 				
 		
 					<h3>Resposta correta</h3>
-						<input type="text" placeholder="Resposta correta" class="correct-answer">
-						<input type="text" placeholder="URL da imagem" class="image-url">
+						<input type="text" placeholder="Resposta correta" class="text-box correct-answer">
+						<input type="text" placeholder="URL da imagem" class="text-box image-url">
 				
 
 
 						<h3>Respostas incorretas</h3>
-						<input type="text" placeholder="Resposta incorreta 1" class="incorrect-1">
-						<input type="text" placeholder="URL da imagem 1" class="incorrect-url-1">
+						<input type="text" placeholder="Resposta incorreta 1" class="text-box incorrect-1">
+						<input type="text" placeholder="URL da imagem 1" class="text-box incorrect-url-1">
 					
-						<input type="text" placeholder="Resposta incorreta 2" class="incorrect-2">
-						<input type="text" placeholder="URL da imagem 2" class="incorrect-url-2">
+						<input type="text" placeholder="Resposta incorreta 2" class="text-box incorrect-2">
+						<input type="text" placeholder="URL da imagem 2" class="text-box incorrect-url-2">
 					
-						<input type="text" placeholder="Resposta incorreta 3" class="incorrect-3">
-						<input type="text" placeholder="URL da imagem 3" class="incorrect-url-3">	
+						<input type="text" placeholder="Resposta incorreta 3" class="text-box incorrect-3">
+						<input type="text" placeholder="URL da imagem 3" class="text-box incorrect-url-3">	
 				</div>
 			</div>
 		`
@@ -64,6 +154,20 @@ function showQuestions(){
 }
 
 
+function editQuestion(questionElement){
+	questionElement.onclick ="";
+	questionElement.querySelector(".select").classList.toggle("escondido");
+	questionElement.querySelector(".edit-question").classList.toggle("escondido");
+}
+
+
+
+
+function checkInputs(inputElement){
+	for (let cont = 0; cont < inputElement.length; cont++){
+
+	}
+}
 
 
 function showLevel(){
@@ -82,10 +186,10 @@ function showLevel(){
 
         <div class="edit-question escondido">
             <h3>Nível ${cont+1}</h3>
-            <input type="text" placeholder="Título do nível" class="level-title">
-            <input type="text" placeholder="% de acerto mínima" class="min-percent">
-            <input type="text" placeholder="URL da imagem do nível" class="level-url">
-            <input type="text" placeholder="Descrição do nível" class="level-description">
+            <input type="text" placeholder="Título do nível" class="text-box level-title">
+            <input type="text" placeholder="% de acerto mínima" class="text-box min-percent">
+            <input type="text" placeholder="URL da imagem do nível" class="text-box level-url">
+            <input type="text" placeholder="Descrição do nível" class="text-box level-description">
         </div>
     </div>`
 	}
@@ -96,6 +200,7 @@ function showLevel(){
 }
 
 
+/*
 
 function editQuestion(questionElement){
 	questionElement.onclick ="";
@@ -104,6 +209,9 @@ function editQuestion(questionElement){
 
 
 }
+
+*/
+
 
 
 
@@ -198,6 +306,7 @@ function createQuizz(){
 			document.querySelector(".quizz-levels").classList.toggle("escondido")
 			document.querySelector(".finish-quizz").classList.toggle("escondido")
 			showCreatedQuizz(response)
+			saveLocalQuizz(response)
 		}
 	);
 	promise.catch(
@@ -220,25 +329,21 @@ function showCreatedQuizz(response){
 	<button class="home-button">Voltar para home</button>
 	
 	`
-console.log(response);
-console.log(response.data);
+//console.log(response);
+//console.log(response.data);
 
 
 }
 
-/*
-   <div>
-        <h1>Seu quizz está pronto!</h1>
-        <img src="images/image title.svg" />
-        <h4>O quão Potterhead é você?</h4>
-    </div>
 
+function saveLocalQuizz(newQuizz){
+	listOfQuizzes = JSON.parse(localStorage.getItem('listOfQuizzes'));
+	listOfQuizzes.push(newQuizz.data);
+	localStorage.setItem('listOfQuizzes', JSON.stringify(listOfQuizzes));
+	const teste = JSON.parse(localStorage.getItem("listOfQuizzes"));
+	console.log(teste);
 
-    <button class="reset-button">Acessar Quizz</button>
-
-    <button class="home-button">Voltar para home</button>
-*/
-
+}
 
 
 

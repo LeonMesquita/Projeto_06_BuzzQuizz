@@ -12,15 +12,14 @@
 
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: start;
 }
 
 .user-quizzes{
     width:100%;
-    margin-top: 140px;
-
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .zero-quizzes{
@@ -58,13 +57,18 @@
 
 .all-user-quizzes{
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
 }
+
 
 .info{
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 160px;
+    margin-top: 140px;
 }
 
 .info p, .all-server-quizzes > p {
