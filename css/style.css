@@ -126,6 +126,8 @@ body {
 
 .options-container h3 {
     margin-top: 5px;
+    width: 95%;
+    word-wrap: break-word;
 }
 
 .result-div {
