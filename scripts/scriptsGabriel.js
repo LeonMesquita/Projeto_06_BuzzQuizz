@@ -125,7 +125,6 @@ function exibeQuizz(quizz){
         <div class="questions-container"> 
             <div class="question-title question1">${quizz.questions[i].title}</div>
             <div class="options-container box${i}">
-                
             </div>
         </div>
         `;
@@ -284,6 +283,8 @@ function voltaMenu(){
 
     exibeLoading();
     setTimeout(carregaQuizzesTodos, TIME_1S);
+    setTimeout(loadUserQuizzes, TIME_1S);
+
     
 }
 
@@ -310,7 +311,6 @@ function comparador() {
 	return Math.random() - 0.5; 
 }
 
-carregaQuizzesTodos();
 function exibeLoading(){
     document.querySelector(".loading-page").classList.remove("escondido");
 }
@@ -319,6 +319,9 @@ function removeLoading(){
     document.querySelector(".loading-page").classList.add("escondido");
 }
 
+
+
+carregaQuizzesTodos();
 setTimeout(carregaQuizzesTodos, TIME_1S);
-setTimeout(carregaQuizzesUsuario, TIME_1S);
+setTimeout(loadUserQuizzes, TIME_1S);
 setTimeout(removeLoading, TIME_1S);

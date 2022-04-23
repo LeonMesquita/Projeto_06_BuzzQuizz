@@ -55,9 +55,9 @@ function loadUserQuizzes(){
 
 
 function openQuizz(quizz){
-	document.querySelector(".main-page").classList.toggle("escondido");
+	document.querySelector(".main-page").classList.add("escondido");
+	document.querySelector(".create-quizz").classList.add("escondido");
     const idQuizz = Number(quizz.querySelector(".id").innerHTML);
-    
     for(let i = 0; i < listOfQuizzes.length; i++){
        if(listOfQuizzes[i].id === idQuizz){
            exibeQuizz(listOfQuizzes[i]);
@@ -442,8 +442,8 @@ function createQuizz(){
 		function(response){
 			document.querySelector(".quizz-levels").classList.toggle("escondido")
 			document.querySelector(".finish-quizz").classList.toggle("escondido")
-			showCreatedQuizz(response)
 			saveLocalQuizz(response)
+			showCreatedQuizz(response)
 		}
 	);
 	promise.catch(
@@ -451,25 +451,36 @@ function createQuizz(){
 }
 
 
+
+function openCreatedQuizz(){
+	document.querySelector(".create-quizz").classList.toggle("escondido");
+	let nquizz = document.querySelector(".finished-quizz");
+	const idQuizz = Number(nquizz.querySelector(".id").innerHTML);
+
+	for(let i = 0; i < listOfQuizzes.length; i++){
+			if(listOfQuizzes[i].id === idQuizz){
+				exibeQuizz(listOfQuizzes[i]);
+			}
+		}
+}
+	
+
+
 function showCreatedQuizz(response){
 	let finishQuizz = document.querySelector(".finish-quizz");
 	finishQuizz.innerHTML = `
-	<div>
+	<div class="finished-quizz">
 		<h1>Seu quizz está pronto!</h1>
 		<img src="${response.data.image}" />
 		<h4>${response.data.title}</h4>
+		<div class="id escondido">${response.data.id}</div>
 	</div>
 
+	<button class='reset-button' onclick="openCreatedQuizz()">Acessar Quizz</button>
 
-	<button class="reset-button">Acessar Quizz</button>
+    <button class='home-button' onclick="voltaMenu()">Voltar para home</button>
 
-	<button class="home-button">Voltar para home</button>
-	
-	`
-//console.log(response);
-//console.log(response.data);
-
-
+`
 }
 
 
@@ -484,101 +495,9 @@ function saveLocalQuizz(newQuizz){
 
 
 
-loadUserQuizzes();
 
 
 function isValidURL(string) {
 	let res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
 	return (res !== null)
   };
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-formato do quizz:
-
-{
-	title: "Título do quizz",
-	image: "https://http.cat/411.jpg",
-	questions: [
-		{
-			title: "Título da pergunta 1",
-			color: "#123456",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true
-				},
-				{
-					text: "Texto da resposta 2",
-					image: "https://http.cat/412.jpg",
-					isCorrectAnswer: false
-				}
-			]
-		},
-		{
-			title: "Título da pergunta 2",
-			color: "#123456",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true
-				},
-				{
-					text: "Texto da resposta 2",
-					image: "https://http.cat/412.jpg",
-					isCorrectAnswer: false
-				}
-			]
-		},
-		{
-			title: "Título da pergunta 3",
-			color: "#123456",
-			answers: [
-				{
-					text: "Texto da resposta 1",
-					image: "https://http.cat/411.jpg",
-					isCorrectAnswer: true
-				},
-				{
-					text: "Texto da resposta 2",
-					image: "https://http.cat/412.jpg",
-					isCorrectAnswer: false
-				}
-			]
-		}
-	],
-	levels: [
-		{
-			title: "Título do nível 1",
-			image: "https://http.cat/411.jpg",
-			text: "Descrição do nível 1",
-			minValue: 0
-		},
-		{
-			title: "Título do nível 2",
-			image: "https://http.cat/412.jpg",
-			text: "Descrição do nível 2",
-			minValue: 50
-		}
-	]
-}
-
-
-*/
