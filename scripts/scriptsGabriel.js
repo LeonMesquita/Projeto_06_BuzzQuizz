@@ -311,7 +311,6 @@ function comparador() {
 }
 
 carregaQuizzesTodos();
-//carregaQuizzesUsuario();
 function exibeLoading(){
     document.querySelector(".loading-page").classList.remove("escondido");
 }

@@ -16,7 +16,7 @@ if (temp === null){
 }
 
 
-loadUserQuizzes();
+
 
 
 
@@ -85,26 +85,42 @@ function setBasicInformations(){
     questionsQuantity =  basicInformations.querySelector(".quantity").value; 
     quizzLevels = basicInformations.querySelector(".levels").value;
 
-
+	let isAllCorrect = true;
 
 		if (quizzTitle.length < 20 || quizzTitle.length > 65){
 			let title = document.querySelector(".title");
 			title.value = "";
 			title.classList.add("error-border");
 			title.placeholder = "O título deve ter no mínimo 20 caracteres e no máximo 65";
-		} else if (questionsQuantity < 3){
+			isAllCorrect = false;
+		}
+		if (!isValidURL(quizzUrl)){
+			let url = document.querySelector(".url");
+			url.value = "";
+			url.classList.add("error-border");
+			url.placeholder = "Insira uma url válida";
+			isAllCorrect = false;
+
+		}
+		
+		 if (questionsQuantity < 3){
 			let quantity = document.querySelector(".quantity");
 			quantity.value = "";
 			quantity.classList.add("error-border");
 			quantity.placeholder = "O quizz deve ter no mínimo 3 perguntas";
-		} else if (quizzLevels < 2){
+			isAllCorrect = false;
+
+		} 
+		if (quizzLevels < 2){
 			let level = document.querySelector(".levels");
 			level.value = "";
 			level.classList.add("error-border");
 			level.placeholder = "O quizz deve ter no mínimo 2 níveis";
+			isAllCorrect = false;
+
 		}
 		
-		else{
+		if (isAllCorrect === true){
 		document.querySelector(".basic-informations").classList.toggle("escondido");
 		document.querySelector(".quizz-questions").classList.toggle("escondido");
 		showQuestions();
@@ -112,7 +128,8 @@ function setBasicInformations(){
  
 }
 
-
+let listOfElements = [];
+let levelsElements = [];
 
 function showQuestions(){
 	let questionElement = document.querySelector(".quizz-questions");
@@ -148,20 +165,81 @@ function showQuestions(){
 				</div>
 			</div>
 		`
+		
 	}
 	questionElement.innerHTML += `
-	<button class="create-quizz-button" onclick="showLevel()">Prosseguir para criar níveis</button>
+	<button class="create-quizz-button" onclick="validateQuestions(listOfElements)">Prosseguir para criar níveis</button>
 	`
 }
+
+//onclick="showLevel()"
+
+
+
+
+function validateQuestions(elements){
+	let isAllCorrect = true;
+
+	for (let cont = 0; cont < elements.length; cont++){
+		let edit = elements[cont].querySelector(".edit-question");
+		let text = edit.querySelector(".question-text");
+		if (text.value.length < 20){
+			isAllCorrect = false;
+			text.classList.add("error-border");
+			text.value = "";
+			text.placeholder = "O texto da pergunta deve ter no mínimo 20 caracteres";
+		}
+	
+		//
+		let color = edit.querySelector(".question-color");
+		if (color.value.length != 7 || color.value[0] != "#"){
+			isAllCorrect = false;
+			color.classList.add("error-border");
+			color.value = "";
+
+			color.placeholder = "A cor de fundo precisa ser em hexadecimal";
+		}
+	
+		//
+		let answer = edit.querySelector(".correct-answer");
+		if (answer.value.length === 0){
+			isAllCorrect = false;
+			answer.classList.add("error-border");
+			answer.value = "";
+
+			answer.placeholder = "A resposta não pode estar vazia";
+		}
+
+		//
+		let url = edit.querySelector(".image-url");
+		if (!isValidURL(url.value)){
+			isAllCorrect = false;
+			url.classList.add("error-border");
+			url.value = "";
+
+			url.placeholder = "Insira uma url válida";
+		}
+	
+
+
+	}
+
+	if (isAllCorrect === true && elements.length == questionsQuantity){
+		showLevel();
+	}
+
+}
+// 
 
 
 function editQuestion(questionElement){
 	questionElement.onclick ="";
 	questionElement.querySelector(".select").classList.toggle("escondido");
 	questionElement.querySelector(".edit-question").classList.toggle("escondido");
+	listOfElements.push(questionElement);
 }
 
-
+//document.getElementById(`question${cont}`)
 
 
 function checkInputs(inputElement){
@@ -195,23 +273,64 @@ function showLevel(){
     </div>`
 	}
 		questionElement.innerHTML += `
-				<button class="create-quizz-button" onclick="setQuestions()">Finalizar quizz</button>
+				<button class="create-quizz-button" onclick="validateLevels(levelsElements)">Finalizar quizz</button>
 
 		`
 }
 
 
-/*
 
-function editQuestion(questionElement){
-	questionElement.onclick ="";
-	questionElement.querySelector(".select").classList.toggle("escondido");
-	questionElement.querySelector(".edit-question").classList.toggle("escondido");
+function validateLevels(elements){
+	let isAllCorrect = true;
 
+	for (let cont = 0; cont < elements.length; cont++){
+		let edit = elements[cont].querySelector(".edit-question");
+		let title = edit.querySelector(".level-title");
+		if (title.value.length < 10){
+			isAllCorrect = false;
+			title.classList.add("error-border");
+			title.value = "";
+			title.placeholder = "O título do nível deve ter no mínimo 10 caracteres";
+		}
+	
+		//
+		let percent = edit.querySelector(".min-percent");
+		if (percent.value < 0 || percent.value > 100 || percent.value.length === 0 || isNaN(percent.value)){
+			isAllCorrect = false;
+			percent.classList.add("error-border");
+			percent.value = "";
+			percent.placeholder = "A porcentagem deve estar entre 0 e 100";
+		}
+	
+		//#EC362D
+		let description = edit.querySelector(".level-description");
+		if (description.value.length < 30){
+			isAllCorrect = false;
+			description.classList.add("error-border");
+			description.value = "";
+			description.placeholder = "A descrição deve ter no mínimo 30 caracteres";
+		}
+	
+		//
+		let url = edit.querySelector(".level-url");
+		if (!isValidURL(url.value)){
+			isAllCorrect = false;
+			url.classList.add("error-border");
+			url.value = "";
+
+			url.placeholder = "Insira uma url válida";
+		}
+
+
+	}
+
+	if (isAllCorrect === true && elements.length == quizzLevels){
+		setQuestions();
+	}
 
 }
 
-*/
+
 
 
 
@@ -220,8 +339,25 @@ function editLevel(levelElement){
 	levelElement.onclick ="";
 	levelElement.querySelector(".select").classList.toggle("escondido");
 	levelElement.querySelector(".edit-question").classList.toggle("escondido");
+	levelsElements.push(levelElement);
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -345,6 +481,30 @@ function saveLocalQuizz(newQuizz){
 	console.log(teste);
 
 }
+
+
+
+loadUserQuizzes();
+
+
+function isValidURL(string) {
+	let res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+	return (res !== null)
+  };
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
