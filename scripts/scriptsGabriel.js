@@ -101,7 +101,8 @@ function abreQuiz(quizz){
 }
 
 function exibeQuizz(quizz){
-    
+    console.log(quizz)
+
     acertos = 0;
     perguntasRespondidas = 0;
     quizzID = quizz.id;
@@ -270,27 +271,27 @@ function calculaAcertos(){
 
 function voltaMenu(){
 
-    const pagQuizz = document.querySelector(".quizz-page");
-    const questContainer = pagQuizz.querySelectorAll(".questions-container");
-    pagQuizz.classList.add("escondido");
-    for(let i = 0; i < questContainer.length; i++){
-        questContainer[i].remove();
-    }
+    // const pagQuizz = document.querySelector(".quizz-page");
+    // const questContainer = pagQuizz.querySelectorAll(".questions-container");
+    // pagQuizz.classList.add("escondido");
+    // for(let i = 0; i < questContainer.length; i++){
+    //     questContainer[i].remove();
+    // }
 
-    const pagCriarQuizz = document.querySelector(".create-quizz");
-    if(!pagCriarQuizz.classList.contains("escondido")){
-        pagCriarQuizz.classList.add("escondido");
-    }
+    // const pagCriarQuizz = document.querySelector(".create-quizz");
+    // if(!pagCriarQuizz.classList.contains("escondido")){
+    //     pagCriarQuizz.classList.add("escondido");
+    // }
     
-    document.querySelector(".quizz-image").innerHTML = "";
+    // document.querySelector(".quizz-image").innerHTML = "";
     
-    document.querySelector(".botoes").classList.add("escondido");
+    // document.querySelector(".botoes").classList.add("escondido");
 
-    exibeLoading();
-    setTimeout(carregaQuizzesTodos, TIME_1S);
-    setTimeout(loadUserQuizzes, TIME_1S);
+    // exibeLoading();
+    // setTimeout(carregaQuizzesTodos, TIME_1S);
+    // setTimeout(loadUserQuizzes, TIME_1S);
 
-    
+    window.location.reload();
 }
 
 function reiniciaQuiz(){
@@ -324,6 +325,32 @@ function removeLoading(){
     document.querySelector(".loading-page").classList.add("escondido");
 }
 
+function apagarQuizz(iconClicado){
+    
+    if(confirm("Pressione OK para apagar o quizz")){
+        const quizz = iconClicado.parentNode.parentNode;
+        const idQuizz = Number(quizz.querySelector(".id").innerHTML);
+        let secretKey; 
+
+        let listaQuizzes = JSON.parse(localStorage.getItem('listOfQuizzes'));
+        for(let i = 0; i < listaQuizzes.length; i++){
+            if(listaQuizzes[i].id === idQuizz){
+                secretKey = listaQuizzes[i].key;
+                listaQuizzes[i] = null
+            }
+        }
+        
+        let novaListaQuizzes = listaQuizzes.filter(elemento => elemento !== null);
+        localStorage.setItem('listOfQuizzes', JSON.stringify(novaListaQuizzes));
+
+        axios.delete(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${idQuizz}`, {headers: {"Secret-Key": secretKey}});
+    }
+    window.location.reload();
+}
+
+function editarQuizz(iconClicado){
+    console.log("edita quizz")
+}
 
 
 carregaQuizzesTodos();

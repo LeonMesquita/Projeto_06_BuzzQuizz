@@ -41,11 +41,15 @@ function loadUserQuizzes(){
 			userQuizzes.querySelector(".all-user-quizzes").innerHTML += `
 			
 		
-			<div class="quizz  margemDireita" onclick="openQuizz(this)">
+			<div class="quizz margemDireita">
 				<img src="${listOfQuizzes[cont].image}" alt="imagem quiz" />
 				<p>${listOfQuizzes[cont].title}</p>
-				<div class="gradiente"></div>
+				<div class="gradiente" onclick="openQuizz(this)"></div>
 				<div class="id escondido">${listOfQuizzes[cont].id}</div>
+				<div class="funcoes-quizz">
+            		<ion-icon name="create-outline" onclick="editarQuizz(this)"></ion-icon>
+            		<ion-icon name="trash-outline" onclick="apagarQuizz(this)"></ion-icon>
+        		</div>
 			</div>
 		
 			`
@@ -58,7 +62,7 @@ function loadUserQuizzes(){
 function openQuizz(quizz){
 	document.querySelector(".main-page").classList.add("escondido");
 	document.querySelector(".create-quizz").classList.add("escondido");
-    const idQuizz = Number(quizz.querySelector(".id").innerHTML);
+    const idQuizz = Number(quizz.parentNode.querySelector(".id").innerHTML);
     
 	exibeLoading();
 	setTimeout(function (){
@@ -427,8 +431,6 @@ function setQuestions(){
 	);
 
 	}
-	
-
 
 
 newQuizz = {
@@ -492,7 +494,7 @@ function showCreatedQuizz(response){
 
     <button class='home-button' onclick="voltaMenu()">Voltar para home</button>
 
-`
+`;
 }
 
 
@@ -501,8 +503,6 @@ function saveLocalQuizz(newQuizz){
 	listOfQuizzes.push(newQuizz.data);
 	localStorage.setItem('listOfQuizzes', JSON.stringify(listOfQuizzes));
 	const teste = JSON.parse(localStorage.getItem("listOfQuizzes"));
-	console.log(teste);
-
 }
 
 
