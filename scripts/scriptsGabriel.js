@@ -344,8 +344,9 @@ function apagarQuizz(iconClicado){
         localStorage.setItem('listOfQuizzes', JSON.stringify(novaListaQuizzes));
 
         axios.delete(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${idQuizz}`, {headers: {"Secret-Key": secretKey}});
+        
+        window.location.reload();
     }
-    window.location.reload();
 }
 
 function editarQuizz(iconClicado){
