@@ -470,7 +470,7 @@ function openCreatedQuizz(){
 function showCreatedQuizz(response){
 	let finishQuizz = document.querySelector(".finish-quizz");
 	finishQuizz.innerHTML = `
-	<div class="finished-quizz quizz">
+	<div class="finished-quizz">
 		<h1>Seu quizz está pronto!</h1>
 		<img src="${response.data.image}" />
 		<h4>${response.data.title}</h4>

@@ -133,7 +133,7 @@ h1 {
     margin-left: 20px;
 }
 
-.finish-quizz div{
+.finish-quizz > div{
     margin-bottom: 45px;
     width: 100%;
     display: flex;
