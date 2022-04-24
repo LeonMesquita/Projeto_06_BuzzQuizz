@@ -32,12 +32,12 @@ function loadUserQuizzes(){
 			`
 	}
 	else {
-		document.querySelector(".info").innerHTML += `
+		document.querySelector(".info").innerHTML = `
 					<p>Seus Quizzes</p>
 					<button onclick="startQuizzCreation()">+</button>
 				`
 		for (let cont = 0; cont < listOfQuizzes.length; cont++){
-			userQuizzes.querySelector(".all-user-quizzes").innerHTML += `
+			userQuizzes.querySelector(".all-user-quizzes").innerHTML = `
 			
 		
 			<div class="quizz  margemDireita" onclick="openQuizz(this)">
