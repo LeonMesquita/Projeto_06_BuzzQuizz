@@ -177,6 +177,10 @@
     color: #ec362d;
 }
 
+button{
+    cursor: pointer;
+}
+
 @media (max-width: 1100px){
     .quizzesUsuario, .quizzesServer {
         flex-direction: column;
