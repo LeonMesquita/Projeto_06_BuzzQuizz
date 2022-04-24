@@ -59,11 +59,19 @@ function openQuizz(quizz){
 	document.querySelector(".main-page").classList.add("escondido");
 	document.querySelector(".create-quizz").classList.add("escondido");
     const idQuizz = Number(quizz.querySelector(".id").innerHTML);
-    for(let i = 0; i < listOfQuizzes.length; i++){
-       if(listOfQuizzes[i].id === idQuizz){
-           exibeQuizz(listOfQuizzes[i]);
-       }
-    }
+    
+	exibeLoading();
+	setTimeout(function (){
+        removeLoading();
+    
+        for(let i = 0; i < listOfQuizzes.length; i++){
+			if(listOfQuizzes[i].id === idQuizz){
+				exibeQuizz(listOfQuizzes[i]);
+			}
+        }
+    }, TIME_1S);
+
+	
 }
 
 
@@ -71,8 +79,8 @@ function openQuizz(quizz){
 
 
 function startQuizzCreation(){
-	document.querySelector(".main-page").classList.toggle("escondido");
-	document.querySelector(".create-quizz").classList.toggle("escondido");
+	document.querySelector(".main-page").classList.add("escondido");
+	document.querySelector(".create-quizz").classList.remove("escondido");
 }
 
 
