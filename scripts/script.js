@@ -23,6 +23,7 @@ if (temp === null){
 function loadUserQuizzes(){
 	listOfQuizzes = JSON.parse(localStorage.getItem('listOfQuizzes'));
 	let userQuizzes = document.querySelector(".user-quizzes");
+	userQuizzes.querySelector(".all-user-quizzes").innerHTML = "";
 	if (listOfQuizzes.length === 0){
 		userQuizzes.innerHTML = `
 			<div class="zero-quizzes">
@@ -37,7 +38,7 @@ function loadUserQuizzes(){
 					<button onclick="startQuizzCreation()">+</button>
 				`
 		for (let cont = 0; cont < listOfQuizzes.length; cont++){
-			userQuizzes.querySelector(".all-user-quizzes").innerHTML = `
+			userQuizzes.querySelector(".all-user-quizzes").innerHTML += `
 			
 		
 			<div class="quizz  margemDireita" onclick="openQuizz(this)">
@@ -469,7 +470,7 @@ function openCreatedQuizz(){
 function showCreatedQuizz(response){
 	let finishQuizz = document.querySelector(".finish-quizz");
 	finishQuizz.innerHTML = `
-	<div class="finished-quizz">
+	<div class="finished-quizz quizz">
 		<h1>Seu quizz está pronto!</h1>
 		<img src="${response.data.image}" />
 		<h4>${response.data.title}</h4>
