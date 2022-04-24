@@ -101,7 +101,6 @@ function abreQuiz(quizz){
 }
 
 function exibeQuizz(quizz){
-    console.log(quizz);
     
     acertos = 0;
     perguntasRespondidas = 0;
@@ -123,7 +122,7 @@ function exibeQuizz(quizz){
     for(let i = 0; i < quizz.questions.length; i++){
         pagQuizz.innerHTML += `
         <div class="questions-container"> 
-            <div class="question-title question1">${quizz.questions[i].title}</div>
+            <div class="question-title question1 background">${quizz.questions[i].title}</div>
             <div class="options-container box${i}">
             </div>
         </div>
@@ -141,6 +140,8 @@ function exibeQuizz(quizz){
                 <p class="escondido">${arrAnswers[j].isCorrectAnswer}</p>
             </div>`;
         }
+
+        document.querySelector(".questions-container:last-child").querySelector("div").style.backgroundColor = `${quizz.questions[i].color}`;
         
     }
 
@@ -199,7 +200,6 @@ function scrollProximaPergunta(perguntaRespondida){
                 setTimeout(function (){
                     arrQuestions[i + 1].scrollIntoView();
                 }, TIME_1S)
-                console.log("fica frio ae")
             }else{
                 setTimeout(function (){
                     document.querySelector(".result").scrollIntoView();
