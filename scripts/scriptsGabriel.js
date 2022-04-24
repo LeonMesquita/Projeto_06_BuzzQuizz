@@ -276,6 +276,11 @@ function voltaMenu(){
     for(let i = 0; i < questContainer.length; i++){
         questContainer[i].remove();
     }
+
+    const pagCriarQuizz = document.querySelector(".create-quizz");
+    if(!pagCriarQuizz.classList.contains("escondido")){
+        pagCriarQuizz.classList.add("escondido");
+    }
     
     document.querySelector(".quizz-image").innerHTML = "";
     

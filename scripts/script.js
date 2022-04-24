@@ -472,8 +472,11 @@ function showCreatedQuizz(response){
 	finishQuizz.innerHTML = `
 	<div class="finished-quizz">
 		<h1>Seu quizz está pronto!</h1>
-		<img src="${response.data.image}" />
-		<h4>${response.data.title}</h4>
+		<div class = "quizz">
+			<img src="${response.data.image}" />
+			<p>${response.data.title}</p>
+			<div class="gradiente"></div>
+		</div>
 		<div class="id escondido">${response.data.id}</div>
 	</div>
 
