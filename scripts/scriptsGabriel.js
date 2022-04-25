@@ -331,7 +331,7 @@ function apagarQuizz(iconClicado){
         const quizz = iconClicado.parentNode.parentNode;
         const idQuizz = Number(quizz.querySelector(".id").innerHTML);
         let secretKey; 
-
+        
         let listaQuizzes = JSON.parse(localStorage.getItem('listOfQuizzes'));
         for(let i = 0; i < listaQuizzes.length; i++){
             if(listaQuizzes[i].id === idQuizz){
@@ -343,14 +343,9 @@ function apagarQuizz(iconClicado){
         let novaListaQuizzes = listaQuizzes.filter(elemento => elemento !== null);
         localStorage.setItem('listOfQuizzes', JSON.stringify(novaListaQuizzes));
 
-        axios.delete(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${idQuizz}`, {headers: {"Secret-Key": secretKey}});
-        
-        window.location.reload();
+        let promiseid = axios.delete(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${idQuizz}`, {headers: {"Secret-Key": secretKey}});
+        promiseid.then(windowReload);
     }
-}
-
-function editarQuizz(iconClicado){
-    console.log("edita quizz")
 }
 
 
