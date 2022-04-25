@@ -147,41 +147,22 @@ let listOfElements = [];
 let levelsElements = [];
 
 function showQuestions(){
+
+
+
 	let questionElement = document.querySelector(".quizz-questions");
 	for (let cont = 0; cont < questionsQuantity; cont++){
+	
 		questionElement.innerHTML += `
-			<div class="select-question" onclick="editQuestion(this)" id="question${cont}">
+			<div class="select-question" onclick="openQuestion(this, ${cont})" id="question${cont}">
 				<div class="select">
 					<h2>Pergunta ${cont+1}</h2>
 					<img src="images/note.svg" />
 				</div>
 
-				<div class="edit-question escondido">
-					<h3>Pergunta ${cont+1}</h3>
-					<input type="text" placeholder="Texto da pergunta" class="text-box question-text">
-					<input type="text" placeholder="Cor de fundo da pergunta" class="text-box question-color">
-				
-		
-					<h3>Resposta correta</h3>
-						<input type="text" placeholder="Resposta correta" class="text-box correct-answer">
-						<input type="text" placeholder="URL da imagem" class="text-box image-url">
-				
 
-
-						<h3>Respostas incorretas</h3>
-						<input type="text" placeholder="Resposta incorreta 1" class="text-box incorrect-1">
-						<input type="text" placeholder="URL da imagem 1" class="text-box incorrect-url-1">
-					
-						<input type="text" placeholder="Resposta incorreta 2" class="text-box incorrect-2">
-						<input type="text" placeholder="URL da imagem 2" class="text-box incorrect-url-2">
-					
-						<input type="text" placeholder="Resposta incorreta 3" class="text-box incorrect-3">
-						<input type="text" placeholder="URL da imagem 3" class="text-box incorrect-url-3">	
-				</div>
 			</div>
 		`
-
-
 	}
 	questionElement.innerHTML += `
 	<button class="create-quizz-button" onclick="validateQuestions(listOfElements)">Prosseguir para criar níveis</button>
@@ -189,48 +170,58 @@ function showQuestions(){
 }
 
 
-/*
-	<div class="select-question" onclick="editQuestion(this)" id="question${cont}">
-				<div class="select">
-					<h2>Pergunta ${cont+1}</h2>
-					<img src="images/note.svg" />
-				</div>
+function openQuestion(question, id){
+	question.onclick ="";
+	listOfElements.push(question);
+	question.innerHTML += `
+	
+	<div class="edit-question">
+		<h3>Pergunta ${id+1}</h3>
+		<input type="text" placeholder="Texto da pergunta" class="text-box question-text">
+		<input type="text" placeholder="Cor de fundo da pergunta" class="text-box question-color">
 
-				<div class="edit-question escondido">
-					<h3>Pergunta ${cont+1}</h3>
-					<input type="text" placeholder="Texto da pergunta" class="text-box question-text" value="${selectedQuizz.questions[cont].title}">
-					<input type="text" placeholder="Cor de fundo da pergunta" class="text-box question-color" value="${selectedQuizz.questions[cont].color}">
-				
+
+		<h3>Resposta correta</h3>
+			<input type="text" placeholder="Resposta correta" class="text-box correct-answer">
+			<input type="text" placeholder="URL da imagem" class="text-box image-url">
+
+
+
+			<h3>Respostas incorretas</h3>
+			<input type="text" placeholder="Resposta incorreta 1" class="text-box incorrect-1">
+			<input type="text" placeholder="URL da imagem 1" class="text-box incorrect-url-1">
 		
-					<h3>Resposta correta</h3>
-						<input type="text" placeholder="Resposta correta" class="text-box correct-answer" value="${selectedQuizz.questions[cont].answers[0].text}">
-						<input type="text" placeholder="URL da imagem" class="text-box image-url" value="${selectedQuizz.questions[cont].answers[0].image}">
-				
+			<input type="text" placeholder="Resposta incorreta 2" class="text-box incorrect-2">
+			<input type="text" placeholder="URL da imagem 2" class="text-box incorrect-url-2">
+		
+			<input type="text" placeholder="Resposta incorreta 3" class="text-box incorrect-3">
+			<input type="text" placeholder="URL da imagem 3" class="text-box incorrect-url-3">	
+</div>
+	`
 
+	if (isEditing === true){
+		let cont = 0;
+		while (cont < selectedQuizz.questions.length){
+			if (id === cont){
+				question.querySelector(".question-text").value = selectedQuizz.questions[cont].title;
+				question.querySelector(".question-color").value = selectedQuizz.questions[cont].color;
 
-						<h3>Respostas incorretas</h3>
-						<input type="text" placeholder="Resposta incorreta 1" class="text-box incorrect-1" value="${selectedQuizz.questions[cont].answers[1].text}">
-						<input type="text" placeholder="URL da imagem 1" class="text-box incorrect-url-1" value="${selectedQuizz.questions[cont].answers[1].image}">
-					
-						<input type="text" placeholder="Resposta incorreta 2" class="text-box incorrect-2" value="${selectedQuizz.questions[cont].answers[2].text}">
-						<input type="text" placeholder="URL da imagem 2" class="text-box incorrect-url-2" value="${selectedQuizz.questions[cont].answers[2].image}">
-					
-						<input type="text" placeholder="Resposta incorreta 3" class="text-box incorrect-3" value="${selectedQuizz.questions[cont].answers[3].text}">
-						<input type="text" placeholder="URL da imagem 3" class="text-box incorrect-url-3" value="${selectedQuizz.questions[cont].answers[3].image}">	
-				</div>
-			</div>
+				question.querySelector(".correct-answer").value = selectedQuizz.questions[cont].answers[0].text;
+				question.querySelector(".image-url").value = selectedQuizz.questions[cont].answers[0].image;
 
-*/
-
-
-
-
-
-
-
-
-
-
+				question.querySelector(".incorrect-1").value = selectedQuizz.questions[cont].answers[1].text;
+				question.querySelector(".incorrect-url-1").value = selectedQuizz.questions[cont].answers[1].image;
+				question.querySelector(".incorrect-2").value = selectedQuizz.questions[cont].answers[2].text;
+				question.querySelector(".incorrect-url-2").value = selectedQuizz.questions[cont].answers[2].image;
+				question.querySelector(".incorrect-3").value = selectedQuizz.questions[cont].answers[3].text;
+				question.querySelector(".incorrect-url-3").value = selectedQuizz.questions[cont].answers[3].image;
+			
+			}
+				cont++;
+		}
+	}
+	question.querySelector(".select").classList.toggle("escondido");
+}
 
 
 
@@ -289,24 +280,6 @@ function validateQuestions(elements){
 }
 // 
 
-
-function editQuestion(questionElement){
-	questionElement.onclick ="";
-	questionElement.querySelector(".select").classList.toggle("escondido");
-	questionElement.querySelector(".edit-question").classList.toggle("escondido");
-	listOfElements.push(questionElement);
-}
-
-//document.getElementById(`question${cont}`)
-
-
-function checkInputs(inputElement){
-	for (let cont = 0; cont < inputElement.length; cont++){
-
-	}
-}
-
-
 function showLevel(){
 	let questionElement = document.querySelector(".quizz-levels");
 	questionElement.onclick ="";
@@ -315,19 +288,11 @@ function showLevel(){
 
 	for (let cont = 0; cont < quizzLevels; cont++){
 		questionElement.innerHTML += `
-		<div class="select-level" onclick="editLevel(this)" id="level${cont}">
+		<div class="select-level" onclick="editLevel(this, ${cont})" id="level${cont}">
 			<div class="select">
 				<h2>Nível ${cont+1}</h2>
 				<img src="images/note.svg" />
 			</div>
-
-        <div class="edit-question escondido">
-            <h3>Nível ${cont+1}</h3>
-            <input type="text" placeholder="Título do nível" class="text-box level-title">
-            <input type="text" placeholder="% de acerto mínima" class="text-box min-percent">
-            <input type="text" placeholder="URL da imagem do nível" class="text-box level-url">
-            <input type="text" placeholder="Descrição do nível" class="text-box level-description">
-        </div>
     </div>`
 	}
 		questionElement.innerHTML += `
@@ -335,6 +300,40 @@ function showLevel(){
 
 		`
 }
+
+
+
+function editLevel(levelElement, id){
+	levelElement.onclick ="";
+	levelElement.querySelector(".select").classList.toggle("escondido");
+	levelsElements.push(levelElement);
+
+	levelElement.innerHTML += `
+		<div class="edit-question">
+			<h3>Nível ${id+1}</h3>
+			<input type="text" placeholder="Título do nível" class="text-box level-title">
+			<input type="text" placeholder="% de acerto mínima" class="text-box min-percent">
+			<input type="text" placeholder="URL da imagem do nível" class="text-box level-url">
+			<input type="text" placeholder="Descrição do nível" class="text-box level-description">
+		</div>
+	`
+	console.log(selectedQuizz)
+
+	if (isEditing === true){
+		let cont = 0;
+		while (cont < selectedQuizz.levels.length){
+			if (id === cont){
+				levelElement.querySelector(".level-title").value = selectedQuizz.levels[cont].title;
+				levelElement.querySelector(".min-percent").value = selectedQuizz.levels[cont].minValue;
+				levelElement.querySelector(".level-url").value = selectedQuizz.levels[cont].image;
+				levelElement.querySelector(".level-description").value = selectedQuizz.levels[cont].text;	
+			}
+				cont++;
+		}
+	}
+
+}
+
 
 
 
@@ -387,37 +386,6 @@ function validateLevels(elements){
 	}
 
 }
-
-
-
-
-
-
-function editLevel(levelElement){
-	levelElement.onclick ="";
-	levelElement.querySelector(".select").classList.toggle("escondido");
-	levelElement.querySelector(".edit-question").classList.toggle("escondido");
-	levelsElements.push(levelElement);
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function setQuestions(){
