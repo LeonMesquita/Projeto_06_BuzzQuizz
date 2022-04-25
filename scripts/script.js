@@ -8,6 +8,8 @@ let listOfAnswers = [];
 let listOfLevels = [];
 let listOfQuizzes = [];
 let newQuizz;
+let selectedQuizz;
+let isEditing = false;
 
 let temp = JSON.parse(localStorage.getItem('listOfQuizzes'));
 	
@@ -47,7 +49,7 @@ function loadUserQuizzes(){
 				<div class="gradiente" onclick="openQuizz(this)"></div>
 				<div class="id escondido">${listOfQuizzes[cont].id}</div>
 				<div class="funcoes-quizz">
-            		<ion-icon name="create-outline" onclick="editarQuizz(this)"></ion-icon>
+            		<ion-icon name="create-outline" onclick="editQuizz(this)"></ion-icon>
             		<ion-icon name="trash-outline" onclick="apagarQuizz(this)"></ion-icon>
         		</div>
 			</div>
@@ -178,14 +180,57 @@ function showQuestions(){
 				</div>
 			</div>
 		`
-		
+
+
 	}
 	questionElement.innerHTML += `
 	<button class="create-quizz-button" onclick="validateQuestions(listOfElements)">Prosseguir para criar níveis</button>
 	`
 }
 
-//onclick="showLevel()"
+
+/*
+	<div class="select-question" onclick="editQuestion(this)" id="question${cont}">
+				<div class="select">
+					<h2>Pergunta ${cont+1}</h2>
+					<img src="images/note.svg" />
+				</div>
+
+				<div class="edit-question escondido">
+					<h3>Pergunta ${cont+1}</h3>
+					<input type="text" placeholder="Texto da pergunta" class="text-box question-text" value="${selectedQuizz.questions[cont].title}">
+					<input type="text" placeholder="Cor de fundo da pergunta" class="text-box question-color" value="${selectedQuizz.questions[cont].color}">
+				
+		
+					<h3>Resposta correta</h3>
+						<input type="text" placeholder="Resposta correta" class="text-box correct-answer" value="${selectedQuizz.questions[cont].answers[0].text}">
+						<input type="text" placeholder="URL da imagem" class="text-box image-url" value="${selectedQuizz.questions[cont].answers[0].image}">
+				
+
+
+						<h3>Respostas incorretas</h3>
+						<input type="text" placeholder="Resposta incorreta 1" class="text-box incorrect-1" value="${selectedQuizz.questions[cont].answers[1].text}">
+						<input type="text" placeholder="URL da imagem 1" class="text-box incorrect-url-1" value="${selectedQuizz.questions[cont].answers[1].image}">
+					
+						<input type="text" placeholder="Resposta incorreta 2" class="text-box incorrect-2" value="${selectedQuizz.questions[cont].answers[2].text}">
+						<input type="text" placeholder="URL da imagem 2" class="text-box incorrect-url-2" value="${selectedQuizz.questions[cont].answers[2].image}">
+					
+						<input type="text" placeholder="Resposta incorreta 3" class="text-box incorrect-3" value="${selectedQuizz.questions[cont].answers[3].text}">
+						<input type="text" placeholder="URL da imagem 3" class="text-box incorrect-url-3" value="${selectedQuizz.questions[cont].answers[3].image}">	
+				</div>
+			</div>
+
+*/
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -448,37 +493,50 @@ createQuizz();
 
 
 function createQuizz(){
-	const promise = axios.post(`${apiUrl}quizzes`, newQuizz);
-	promise.then(
-		function(response){
-			document.querySelector(".quizz-levels").classList.toggle("escondido")
-			document.querySelector(".finish-quizz").classList.toggle("escondido")
-			saveLocalQuizz(response)
-			showCreatedQuizz(response)
-		}
-	);
-	promise.catch(
-	);
-}
-
-
-
-function openCreatedQuizz(){
-	document.querySelector(".create-quizz").classList.toggle("escondido");
-	let nquizz = document.querySelector(".finished-quizz");
-	const idQuizz = Number(nquizz.querySelector(".id").innerHTML);
-
-	for(let i = 0; i < listOfQuizzes.length; i++){
-			if(listOfQuizzes[i].id === idQuizz){
-				exibeQuizz(listOfQuizzes[i]);
+	if (isEditing === false){
+		const promise = axios.post(`${apiUrl}quizzes`, newQuizz);
+		promise.then(
+			function(response){
+				saveLocalQuizz(response)
+				showCreatedQuizz(response)
 			}
-		}
+		);
+	}
+	else {
+		isEditing = false;
+		let promise = axios.put(`https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes/${editID}`, newQuizz, {headers: {"Secret-Key": secretKey}});
+		promise.then(
+			function(response){
+				saveEditedQuizz(response)
+				showCreatedQuizz(response)
+			}
+		);
+
+	}
+
 }
-	
+
+function saveLocalQuizz(newQuizz){
+	listOfQuizzes = JSON.parse(localStorage.getItem('listOfQuizzes'));
+	listOfQuizzes.push(newQuizz.data);
+	localStorage.setItem('listOfQuizzes', JSON.stringify(listOfQuizzes));
+	const teste = JSON.parse(localStorage.getItem("listOfQuizzes"));
+}
+
+
+
+function saveEditedQuizz(quizz){
+	listOfQuizzes.splice(listOfQuizzes.indexOf(editID), 1);
+	listOfQuizzes.push(quizz.data);
+	localStorage.setItem('listOfQuizzes', JSON.stringify(listOfQuizzes));
+}
+
 
 
 function showCreatedQuizz(response){
 	let finishQuizz = document.querySelector(".finish-quizz");
+	document.querySelector(".quizz-levels").classList.toggle("escondido")
+	document.querySelector(".finish-quizz").classList.toggle("escondido")
 	finishQuizz.innerHTML = `
 	<div class="finished-quizz">
 		<h1>Seu quizz está pronto!</h1>
@@ -498,12 +556,52 @@ function showCreatedQuizz(response){
 }
 
 
-function saveLocalQuizz(newQuizz){
-	listOfQuizzes = JSON.parse(localStorage.getItem('listOfQuizzes'));
-	listOfQuizzes.push(newQuizz.data);
-	localStorage.setItem('listOfQuizzes', JSON.stringify(listOfQuizzes));
-	const teste = JSON.parse(localStorage.getItem("listOfQuizzes"));
+
+
+function openCreatedQuizz(){
+	document.querySelector(".create-quizz").classList.toggle("escondido");
+	let nquizz = document.querySelector(".finished-quizz");
+	const idQuizz = Number(nquizz.querySelector(".id").innerHTML);
+
+	for(let i = 0; i < listOfQuizzes.length; i++){
+			if(listOfQuizzes[i].id === idQuizz){
+				exibeQuizz(listOfQuizzes[i]);
+			}
+		}
 }
+	
+
+
+
+let secretKey;
+let editID
+function editQuizz(iconClicado){
+	listOfQuizzes = JSON.parse(localStorage.getItem('listOfQuizzes'));
+	document.querySelector(".main-page").classList.toggle("escondido");
+	let createPage = document.querySelector(".create-quizz")
+	createPage.classList.toggle("escondido");
+	
+	isEditing = true;
+
+	const quizz = iconClicado.parentNode.parentNode;
+	editID = Number(quizz.querySelector(".id").innerHTML);
+
+
+	for (let cont = 0; cont < listOfQuizzes.length; cont++){
+		if (listOfQuizzes[cont].id == editID){
+			selectedQuizz = listOfQuizzes[cont];
+			secretKey = listOfQuizzes[cont].key;
+		}
+
+	}
+
+	let basicInformations = createPage.querySelector(".basic-informations");
+	basicInformations.querySelector(".title").value = selectedQuizz.title;
+	basicInformations.querySelector(".url").value = selectedQuizz.image;
+	basicInformations.querySelector(".quantity").value = selectedQuizz.questions.length;
+	basicInformations.querySelector(".levels").value = selectedQuizz.levels.length;
+}
+
 
 
 
