@@ -163,6 +163,25 @@ function showQuestions(){
 }
 
 
+`
+<div class="informations">
+<div class="information-input">
+	<input type="text" placeholder="Título do seu quizz" class="text-box title">
+</div>
+<div class="information-input">
+	<input type="text" placeholder="URl da imagem do seu quizz" class="text-box url">
+</div>
+<div class="information-input">
+	<input type="text" placeholder="Quantidade de perguntas do quizz" class="text-box quantity">
+</div>
+<div class="information-input">
+	<input type="text" placeholder="Quantidade de níveis do quizz" class="text-box levels">
+</div>
+</div>
+`
+
+
+
 function openQuestion(question, id){
 	question.onclick ="";
 	listOfElements.push(question);
@@ -170,27 +189,57 @@ function openQuestion(question, id){
 	
 	<div class="edit-question">
 		<h3>Pergunta ${id+1}</h3>
+		<div class="information-input">	
 		<input type="text" placeholder="Texto da pergunta" class="text-box question-text">
+		</div>
+
+		<div class="information-input">	
 		<input type="text" placeholder="Cor de fundo da pergunta" class="text-box question-color">
+		</div>
 
 
 		<h3>Resposta correta</h3>
-			<input type="text" placeholder="Resposta correta" class="text-box correct-answer">
-			<input type="text" placeholder="URL da imagem" class="text-box image-url">
+		<div class="information-input">	
+		<input type="text" placeholder="Resposta correta" class="text-box correct-answer">
+		</div>
+
+		<div class="information-input">	
+		<input type="text" placeholder="URL da imagem" class="text-box image-url">
+		</div>
 
 
 
 			<h3>Respostas incorretas</h3>
+			<div class="information-input">	
 			<input type="text" placeholder="Resposta incorreta 1" class="text-box incorrect-1">
+			</div>
+			<div class="information-input">	
 			<input type="text" placeholder="URL da imagem 1" class="text-box incorrect-url-1">
-		
+			</div>
+
+			
+			<div class="information-input">	
 			<input type="text" placeholder="Resposta incorreta 2" class="text-box incorrect-2">
+			</div>
+			<div class="information-input">	
 			<input type="text" placeholder="URL da imagem 2" class="text-box incorrect-url-2">
-		
+			</div>
+
+
+
+			<div class="information-input">	
 			<input type="text" placeholder="Resposta incorreta 3" class="text-box incorrect-3">
+			</div>
+			<div class="information-input">	
 			<input type="text" placeholder="URL da imagem 3" class="text-box incorrect-url-3">	
+			</div>
+
+		
+		
 </div>
 	`
+
+	
 
 	if (isEditing === true){
 		let cont = 0;
@@ -226,41 +275,35 @@ function validateQuestions(elements){
 	for (let cont = 0; cont < elements.length; cont++){
 		let edit = elements[cont].querySelector(".edit-question");
 		let text = edit.querySelector(".question-text");
+
 		if (text.value.length < 20){
 			isAllCorrect = false;
-			text.classList.add("error-border");
-			text.value = "";
-			text.placeholder = "O texto da pergunta deve ter no mínimo 20 caracteres";
+			text.classList.add("error-message");
+			text.parentNode.innerHTML += "<h4>O texto da pergunta deve ter no mínimo 20 caracteres</h4>";
 		}
 	
 		//
 		let color = edit.querySelector(".question-color");
 		if (color.value.length != 7 || color.value[0] != "#"){
 			isAllCorrect = false;
-			color.classList.add("error-border");
-			color.value = "";
-
-			color.placeholder = "A cor de fundo precisa ser em hexadecimal";
+			color.classList.add("error-message");
+			color.parentNode.innerHTML += "<h4>A cor de fundo precisa ser em hexadecimal</h4>";
 		}
 	
 		//
 		let answer = edit.querySelector(".correct-answer");
 		if (answer.value.length === 0){
 			isAllCorrect = false;
-			answer.classList.add("error-border");
-			answer.value = "";
-
-			answer.placeholder = "A resposta não pode estar vazia";
+			answer.classList.add("error-message");
+			answer.parentNode.innerHTML += "<h4>A resposta não pode estar vazia</h4>";
 		}
 
 		//
 		let url = edit.querySelector(".image-url");
 		if (!isValidURL(url.value)){
 			isAllCorrect = false;
-			url.classList.add("error-border");
-			url.value = "";
-
-			url.placeholder = "Insira uma url válida";
+			url.classList.add("error-message");
+			url.parentNode.innerHTML += "<h4>Insira uma url válida</h4>";
 		}
 		
 		let incorrect1 = edit.querySelector(".incorrect-1");
@@ -276,8 +319,9 @@ function validateQuestions(elements){
 
 		if (incorrectAnswers === 0){
 			isAllCorrect = false;
-			incorrect1.classList.add("error-border");
-			incorrect1.placeholder = "Você deve inserir ao menos uma resposta errada";
+			incorrect1.classList.add("error-message");
+			incorrect1.parentNode.innerHTML += "<h4>Você deve inserir ao menos uma resposta errada</h4>";
+
 		}
 		else{
 			incorrectAnswers = 0
@@ -324,10 +368,21 @@ function editLevel(levelElement, id){
 	levelElement.innerHTML += `
 		<div class="edit-question">
 			<h3>Nível ${id+1}</h3>
+			<div class="information-input">	
 			<input type="text" placeholder="Título do nível" class="text-box level-title">
+			</div>
+
+			<div class="information-input">	
 			<input type="text" placeholder="% de acerto mínima" class="text-box min-percent">
+			</div>
+
+			<div class="information-input">	
 			<input type="text" placeholder="URL da imagem do nível" class="text-box level-url">
+			</div>
+
+			<div class="information-input">	
 			<input type="text" placeholder="Descrição do nível" class="text-box level-description">
+			</div>
 		</div>
 	`
 	console.log(selectedQuizz)
@@ -358,36 +413,31 @@ function validateLevels(elements){
 		let title = edit.querySelector(".level-title");
 		if (title.value.length < 10){
 			isAllCorrect = false;
-			title.classList.add("error-border");
-			title.value = "";
-			title.placeholder = "O título do nível deve ter no mínimo 10 caracteres";
+			title.classList.add("error-message");
+			title.parentNode.innerHTML += "<h4>O título do nível deve ter no mínimo 10 caracteres</h4>";
 		}
 	
 		//
 		let percent = edit.querySelector(".min-percent");
 		if (percent.value < 0 || percent.value > 100 || percent.value.length === 0 || isNaN(percent.value)){
 			isAllCorrect = false;
-			percent.classList.add("error-border");
-			percent.value = "";
-			percent.placeholder = "A porcentagem deve estar entre 0 e 100";
+			percent.classList.add("error-message");
+			percent.parentNode.innerHTML += "<h4>A porcentagem deve estar entre 0 e 100</h4>";
 		}
 	
 		let description = edit.querySelector(".level-description");
 		if (description.value.length < 30){
 			isAllCorrect = false;
-			description.classList.add("error-border");
-			description.value = "";
-			description.placeholder = "A descrição deve ter no mínimo 30 caracteres";
+			description.classList.add("error-message");
+			description.parentNode.innerHTML += "<h4>A descrição deve ter no mínimo 30 caracteres</h4>";
 		}
 	
 		//
 		let url = edit.querySelector(".level-url");
 		if (!isValidURL(url.value)){
 			isAllCorrect = false;
-			url.classList.add("error-border");
-			url.value = "";
-
-			url.placeholder = "Insira uma url válida";
+			url.classList.add("error-message");
+			url.parentNode.innerHTML += "<h4>Insira uma url válida</h4>";
 		}
 
 
