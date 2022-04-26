@@ -101,33 +101,29 @@ function setBasicInformations(){
 
 		if (quizzTitle.length < 20 || quizzTitle.length > 65){
 			let title = document.querySelector(".title");
-			title.value = "";
-			title.classList.add("error-border");
-			title.placeholder = "O título deve ter no mínimo 20 caracteres e no máximo 65";
+			title.classList.add("error-message");
+			title.parentNode.innerHTML += "<h4>O título deve ter no mínimo 20 caracteres e no máximo 65</h4>";
 			isAllCorrect = false;
 		}
 		if (!isValidURL(quizzUrl)){
 			let url = document.querySelector(".url");
-			url.value = "";
-			url.classList.add("error-border");
-			url.placeholder = "Insira uma url válida";
+			url.classList.add("error-message");
+			url.parentNode.innerHTML += "<h4>O valor informado não é uma URl válida</h4>";
 			isAllCorrect = false;
 
 		}
 		
 		 if (questionsQuantity < 3){
 			let quantity = document.querySelector(".quantity");
-			quantity.value = "";
-			quantity.classList.add("error-border");
-			quantity.placeholder = "O quizz deve ter no mínimo 3 perguntas";
+			quantity.classList.add("error-message");
+			quantity.parentNode.innerHTML += "<h4>O quizz deve ter no mínimo 3 perguntas</h4>";
 			isAllCorrect = false;
 
 		} 
 		if (quizzLevels < 2){
 			let level = document.querySelector(".levels");
-			level.value = "";
-			level.classList.add("error-border");
-			level.placeholder = "O quizz deve ter no mínimo 2 níveis";
+			level.classList.add("error-message");
+			level.parentNode.innerHTML += "<h4>O quizz deve ter no mínimo 2 níveis</h4>";
 			isAllCorrect = false;
 
 		}
