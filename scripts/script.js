@@ -19,9 +19,6 @@ if (temp === null){
 
 
 
-
-
-
 function loadUserQuizzes(){
 	listOfQuizzes = JSON.parse(localStorage.getItem('listOfQuizzes'));
 	let userQuizzes = document.querySelector(".user-quizzes");
@@ -228,6 +225,7 @@ function openQuestion(question, id){
 
 function validateQuestions(elements){
 	let isAllCorrect = true;
+	let incorrectAnswers = 0;
 
 	for (let cont = 0; cont < elements.length; cont++){
 		let edit = elements[cont].querySelector(".edit-question");
@@ -268,7 +266,26 @@ function validateQuestions(elements){
 
 			url.placeholder = "Insira uma url válida";
 		}
-	
+		
+		let incorrect1 = edit.querySelector(".incorrect-1");
+		if(edit.querySelector(".incorrect-1").value && edit.querySelector(".incorrect-url-1").value){
+			incorrectAnswers++;
+		}
+		if(edit.querySelector(".incorrect-2").value && edit.querySelector(".incorrect-url-2").value){
+			incorrectAnswers++;
+		}
+		if(edit.querySelector(".incorrect-3").value && edit.querySelector(".incorrect-url-3").value){
+			incorrectAnswers++;
+		}
+
+		if (incorrectAnswers === 0){
+			isAllCorrect = false;
+			incorrect1.classList.add("error-border");
+			incorrect1.placeholder = "Você deve inserir ao menos uma resposta errada";
+		}
+		else{
+			incorrectAnswers = 0
+		}
 
 
 	}
@@ -359,7 +376,6 @@ function validateLevels(elements){
 			percent.placeholder = "A porcentagem deve estar entre 0 e 100";
 		}
 	
-		//#EC362D
 		let description = edit.querySelector(".level-description");
 		if (description.value.length < 30){
 			isAllCorrect = false;
@@ -405,33 +421,30 @@ function setQuestions(){
 
 	for (let cont = 0; cont < questionsQuantity; cont++){
 	const question = document.getElementById(`question${cont}`);
-
-	listOfAnswers.push(
-		[
-			{
+	let answers = [];
+	answers.push(
+		{
 			text: question.querySelector(".correct-answer").value,
 			image: question.querySelector(".image-url").value,
 			isCorrectAnswer: true
-		},
-		{
-			text: question.querySelector(".incorrect-1").value,
-			image: question.querySelector(".incorrect-url-1").value,
-			isCorrectAnswer: false
-		},
-		{
-			text: question.querySelector(".incorrect-2").value,
-			image: question.querySelector(".incorrect-url-2").value,
-			isCorrectAnswer: false
-		},
-		{
-			text: question.querySelector(".incorrect-3").value,
-			image: question.querySelector(".incorrect-url-3").value,
-			isCorrectAnswer: false
-		},
-		]
-		
-		
+			},
 	);
+
+	for (let i = 1; i <= 3; i++){
+		if (question.querySelector(`.incorrect-${i}`).value && question.querySelector(`.incorrect-url-${i}`).value){
+			answers.push(
+				{
+					text: question.querySelector(`.incorrect-${i}`).value,
+					image: question.querySelector(`.incorrect-url-${i}`).value,
+					isCorrectAnswer: false
+				},
+			);
+	}
+	}
+
+	
+
+	listOfAnswers.push(answers);
 
 
 	
@@ -569,8 +582,6 @@ function editQuizz(iconClicado){
 	basicInformations.querySelector(".quantity").value = selectedQuizz.questions.length;
 	basicInformations.querySelector(".levels").value = selectedQuizz.levels.length;
 }
-
-
 
 
 
