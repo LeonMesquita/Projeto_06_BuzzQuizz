@@ -6,6 +6,7 @@ let quizzID;
 const TIME_1S = 1000;
 
 function carregaQuizzesTodos(){
+    //carrega quizzes da API
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes"); 
 
     promise.catch(windowReload);
@@ -14,16 +15,18 @@ function carregaQuizzesTodos(){
 
 function renderizaQuizzes(response){ 
 
+    //troca página em exibição
     if(document.querySelector(".main-page").classList.contains("escondido")){
         document.querySelector(".main-page").classList.remove("escondido");
     }
-
+    
     if(!document.querySelector(".loading-page").classList.contains("escondido")){
         document.querySelector(".loading-page").classList.add("escondido");
     }
     
     arrQuizzes = response.data;
     
+    //exibe todos os quizzes
     document.querySelector(".quizzesServer").innerHTML = "";
     for(let i = 0; i < arrQuizzes.length; i++){
         imprimeQuiz(arrQuizzes[i]);
@@ -32,6 +35,7 @@ function renderizaQuizzes(response){
 
 function imprimeQuiz(quizz){
 
+    //template de um quizz
     const quizzes = document.querySelector(".quizzesServer")
 
     quizzes.innerHTML += `
@@ -46,6 +50,7 @@ function imprimeQuiz(quizz){
 }
 
 function carregaQuizzesUsuario(){
+    //carrega quizzes usuário
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/buzzquizz/quizzes"); 
 
     promise.catch(windowReload);
@@ -78,11 +83,13 @@ function imprimeQuizUsuario(quizz){
 }
 
 function windowReload(){
+    //recarrega página
     window.location.reload();
 }
 
 function abreQuiz(quizz){
-    
+    //muda da página 1 para a página 2
+
     exibeLoading();
     document.querySelector(".main-page").classList.add("escondido");
     
@@ -101,7 +108,7 @@ function abreQuiz(quizz){
 }
 
 function exibeQuizz(quizz){
-    console.log(quizz)
+    //template para imprimir quizz clicado
 
     acertos = 0;
     perguntasRespondidas = 0;
@@ -154,6 +161,7 @@ function exibeQuizz(quizz){
 }
 
 function selecionaOpcao(opcaoClicada){
+    //seleciona a resposta do usuário para a pergunta do quizz
 
     const divPai = opcaoClicada.parentNode;
     const arrOptions = divPai.querySelectorAll(".option");
@@ -190,6 +198,7 @@ function selecionaOpcao(opcaoClicada){
 }
 
 function scrollProximaPergunta(perguntaRespondida){
+    //rola a página para a próxima pergunta
 
     const quizzPage = document.querySelector(".quizz-page");
     const arrQuestions = quizzPage.querySelectorAll(".questions-container");
@@ -347,7 +356,6 @@ function apagarQuizz(iconClicado){
         promiseid.then(windowReload);
     }
 }
-
 
 carregaQuizzesTodos();
 setTimeout(carregaQuizzesTodos, TIME_1S);
